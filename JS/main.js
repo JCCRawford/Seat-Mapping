@@ -13,7 +13,7 @@
         let rows = parseInt(numOfRows.value);
         if(valueCheck(seats) && valueCheck(rows)){
             seatList = generateMap(rows, seats);
-            console.log(seatList);
+         
         }else{
             alert("please input values between 1 and 100");
         }
@@ -30,12 +30,36 @@
     function generateMap(rows, seats){
         let seatArray = new Array();
         for(var y = 0; y < rows; y++){
+            var s = "<div class='row-container'>";
             for(var x = 0; x < seats; x++){
                 seatArray.push([y,x])
-                seatMap.innerHTML += buildSeatSVG();
+                
+                s += buildSeatSVG();
+                
             }
+            s += '</div>';
+            seatMap.innerHTML += s;
             seatMap.innerHTML += '<br>';
         }
+        for(row of document.getElementsByClassName('row-container')){
+            row.style = "max-width: 100%; height: auto;";
+            //row.style.width = '100%'
+            
+            let dimensions = Math.floor(row.clientWidth/row.children.length) + 'px';
+      
+            for(thing of document.getElementsByClassName('seat')){
+                
+                thing.style.maxWidth = '50px';
+                thing.style.maxHeight = '50px';
+                thing.setAttribute('width', dimensions);
+                
+                thing.setAttribute('height', dimensions);
+                
+                
+                
+            }
+        }
+
         activateSeats();
         return seatArray;
     }
@@ -54,18 +78,15 @@
 
                     }
                     selected = false;
-                    console.log('deselected');
                 }else{
                     for(item of this.children){
-                        item.style = "fill:lightgreen; stroke: black; stroke-width: 3px;";
+                        item.style = "fill:#3f3; stroke: black; stroke-width: 3px;";
                     }
                     selected = true;
-                    console.log('selected');
                 }
                 
 
         
-                console.log('clicked');
             });
             
         }
